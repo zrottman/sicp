@@ -1,16 +1,19 @@
-(define (cube x) (* x x x))
-(define (improve guess target)
-  (/ (+ (/ target (square guess)) (* 2 guess)) 3))
-(define (square x) (* x x))
-(define (cubert-itr guess target)
-  (if (good-enough? guess target)
-    guess
-    (cubert-itr (improve guess target) target)))
-(define (cubert target)
-  (cubert-itr 1.0 target))
+(define (cuberoot x)
+  (define (good-enough? guess)
+    (< (abs (- (cube guess) x)) .01))
+  (define (improve guess)
+    (/ (+ (/ x (square guess)) (* 2 guess)) 3))
+  (define (cuberoot-itr guess)
+    (if (good-enough? guess)
+      guess
+      (cuberoot-itr (improve guess))))
+  (cuberoot-itr 1.0))
+
 (define (abs x)
   (if (< x 0)
     (- x)
     x))
-(define (good-enough? guess target)
-  (< (abs (- (cube guess) target)) .01))
+
+(define (square x) (* x x))
+
+(define (cube x) (* x x x))
